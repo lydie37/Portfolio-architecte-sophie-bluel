@@ -186,3 +186,36 @@ footer nav ul {
 	margin: 2em
 }
 
+/** Ajout css**/
+
+#filters {
+  display: flex;               /* active flexbox */
+  justify-content: center;     /* centre horizontalement les boutons */
+  gap: 10px;                  /* espace entre les boutons */
+  margin: 20px 0;             /* un peu d’espace vertical */
+}
+
+.filter-btn.active {
+  background-color: #1D6154;
+  color: white;
+}
+
+.filter-btn {
+  padding: 10px 20px;
+  margin-bottom: 40px;
+  border-radius: 20px;
+  background-color: white;
+  border: 1px solid #1D6154;
+  color: #1D6154;
+  cursor: pointer;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.filter-btn:hover {
+  background-color: #1D6154;
+  color: white;
+}
+
+
