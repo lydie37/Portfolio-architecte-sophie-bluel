@@ -11,16 +11,23 @@
 		rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
 </head>
 
 <body>
+	<div id="edition-banner">
+		<i class="fa-solid fa-pen-to-square"></i>
+		<span>Mode édition</span>
+	</div>
+
 	<header>
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 		<nav>
 			<ul>
-				<li><a href="#">Projets</a></li>
-				<li><a href="#">Contact</a></li>
-				<li><a href="login.html">Se connecter</a></li> <!-- ✅ lien fonctionnel -->
+				<li><a href="#">projets</a></li>
+				<li><a href="#">contact</a></li>
+				<li><a href="login.html">login</a></li>
 				<li>
 					<a href="https://instagram.com" target="_blank" rel="noopener">
 						<img class="icon-instagram" src="./assets/icons/instagram.png" alt="Instagram">
@@ -32,7 +39,7 @@
 	<main>
 		<section id="introduction">
 			<figure>
-				<img src="./assets/images/sophie-bluel.png" alt="">
+				<img src="./assets/images/sophie-bluel.png" alt="Photo de Sophie Bluel">
 			</figure>
 			<article>
 				<h2>Designer d'espace</h2>
@@ -46,10 +53,14 @@
 			</article>
 		</section>
 		<section id="portfolio">
-			<h2>Mes Projets</h2>
-			<div id="filters"></div>
-			<div class="gallery">
+			<div class="header-portfolio">
+				<h2>Mes Projets</h2>
+				<button class="edit-button">
+					<i class="fa-solid fa-pen-to-square"></i> modifier
+				</button>
 			</div>
+			<div id="filters"></div>
+			<div class="gallery"></div>
 		</section>
 		<section id="contact">
 			<h2>Contact</h2>

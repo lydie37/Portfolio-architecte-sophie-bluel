@@ -163,14 +163,12 @@ header {
 	max-width: 1140px;
 	margin: 50px auto;
 	padding: 0;
-	/* ⛔ Retire le padding horizontal */
 	width: 100%;
 	box-sizing: border-box;
 }
 
 header h1 {
 	margin-left: -60px;
-	/* ou -60px pour plus */
 }
 
 footer nav {
@@ -308,9 +306,7 @@ input[type="submit"] {
 	background-color: #1D6154;
 	margin: 2em auto;
 	width: 220px;
-	/* plus large */
 	padding: 10px 0;
-	/* moins haut */
 	text-align: center;
 	border-radius: 60px;
 }
@@ -320,7 +316,6 @@ footer nav ul {
 	justify-content: flex-end;
 	width: 100%;
 	padding: 0 60px;
-	/* padding horizontal seulement, ajustable */
 	margin: 0;
 }
 
@@ -328,13 +323,9 @@ footer nav ul {
 
 #filters {
 	display: flex;
-	/* active flexbox */
 	justify-content: center;
-	/* centre horizontalement les boutons */
 	gap: 10px;
-	/* espace entre les boutons */
 	margin: 20px 0;
-	/* un peu d’espace vertical */
 	margin-top: 50px;
 }
 
@@ -394,4 +385,50 @@ footer {
 footer nav ul li {
 	font-weight: normal;
 	font-size: 14px;
+}
+
+.header-portfolio {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+	max-width: 1000px;
+	margin: 0 auto 1em auto;
+	padding: 0 1.5em;
+	margin-bottom: 100px;
+}
+
+#portfolio h2 {
+	margin-bottom: 0;
+}
+
+.edit-button {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 0.3em 0.8em;
+	border: none;
+	background-color: transparent;
+	color: black;
+	font-family: 'Work Sans', sans-serif;
+	font-size: 1rem;
+	cursor: pointer;
+	margin: 0;
+	height: 2.4rem;
+}
+
+#edition-banner {
+	display: none;
+	background-color: black;
+	color: white;
+	font-family: 'Work Sans', sans-serif;
+	font-size: 14px;
+	position: relative;
+	z-index: 10;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+	padding: 20px 0;
 }

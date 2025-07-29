@@ -169,7 +169,6 @@ header {
 
 header h1 {
     margin-left: -60px;
-    /* ou -60px pour plus */
 }
 
 footer nav {
@@ -255,9 +254,7 @@ input[type="submit"] {
     background-color: #1D6154;
     margin: 2em auto;
     width: 220px;
-    /* plus large */
     padding: 10px 0;
-    /* moins haut */
     text-align: center;
     border-radius: 60px;
 }
@@ -267,7 +264,6 @@ footer nav ul {
     justify-content: flex-end;
     width: 100%;
     padding: 0 60px;
-    /* padding horizontal seulement, ajustable */
     margin: 0;
 }
 

@@ -7,9 +7,18 @@ const filtersContainer = document.getElementById('filters');
 
 let allWorks = [];
 
-// Fonction pour afficher des projets dans la galerie
+// Fonction pour faire un fetch
+function fetchData(url) {
+  return fetch(url)
+    .then(response => response.json())
+    .catch(error => {
+      console.error("Erreur lors du fetch :", error);
+    });
+}
+
+// Fonction pour afficher les projets dans la galerie
 function displayWorks(works) {
-  gallery.innerHTML = ""; // Vider la galerie
+  gallery.innerHTML = "";
 
   works.forEach(work => {
     const figure = document.createElement('figure');
@@ -21,19 +30,18 @@ function displayWorks(works) {
   });
 }
 
-// Charger les projets depuis l'API
-fetch('http://localhost:5678/api/works')
-  .then(response => response.json())
-  .then(data => {
+// Charger les projets
+fetchData('http://localhost:5678/api/works').then(data => {
+  if (data) {
     allWorks = data;
-    displayWorks(allWorks); // Afficher tous les projets
-  });
+    displayWorks(allWorks);
+  }
+});
 
-// Charger les catégories depuis l'API et créer les filtres
-fetch('http://localhost:5678/api/categories')
-  .then(response => response.json())
-  .then(categories => {
-    // Ajouter le bouton "Tous"
+// Charger les catégories et créer les filtres
+fetchData('http://localhost:5678/api/categories').then(categories => {
+  if (categories) {
+    // Bouton "Tous"
     const allBtn = document.createElement('button');
     allBtn.textContent = "Tous";
     allBtn.classList.add('filter-btn', 'active');
@@ -43,7 +51,7 @@ fetch('http://localhost:5678/api/categories')
     });
     filtersContainer.appendChild(allBtn);
 
-    // Créer un bouton pour chaque catégorie
+    // Boutons pour chaque catégorie
     categories.forEach(category => {
       const btn = document.createElement('button');
       btn.textContent = category.name;
@@ -55,10 +63,65 @@ fetch('http://localhost:5678/api/categories')
       });
       filtersContainer.appendChild(btn);
     });
-  });
+  }
+});
 
-// Fonction pour activer visuellement le bouton sélectionné
+// Activer le bon bouton de filtre
 function setActiveButton(activeBtn) {
   document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
   activeBtn.classList.add('active');
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const token = localStorage.getItem("token");
+  console.log("Token:", token);
+
+  // Masquer les filtres si connecté
+  if (token && token !== "null" && token !== "undefined") {
+    if (filtersContainer) {
+      filtersContainer.style.display = "none";
+    }
+
+    // Afficher bandeau édition
+    let banner = document.getElementById("edition-banner");
+    if (!banner) {
+      banner = document.createElement("div");
+      banner.id = "edition-banner";
+      banner.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> <span>Mode édition</span>`;
+      document.body.prepend(banner);
+    }
+    banner.style.display = "flex";
+
+    // Afficher boutons Modifier
+    const editButtons = document.querySelectorAll(".edit-button");
+    editButtons.forEach(button => {
+      button.style.display = "inline-flex";
+    });
+
+    // Modifier login en logout
+    const loginLink = document.querySelector('nav ul li a[href="login.html"]');
+    if (loginLink) {
+      loginLink.textContent = "logout";
+      loginLink.href = "#";
+
+      loginLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("token");
+        window.location.reload();
+      });
+    }
+  } else {
+    // Pas connecté : montrer filtres + cacher bandeau + boutons Modifier
+    if (filtersContainer) {
+      filtersContainer.style.display = "flex";
+    }
+    const banner = document.getElementById("edition-banner");
+    if (banner) {
+      banner.style.display = "none";
+    }
+    const editButtons = document.querySelectorAll(".edit-button");
+    editButtons.forEach(button => {
+      button.style.display = "none";
+    });
+  }
+});
