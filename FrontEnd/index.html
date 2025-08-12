@@ -7,8 +7,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
+	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Work+Sans&display=swap"
 		rel="stylesheet">
+
+	rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -85,6 +87,32 @@
 			</ul>
 		</nav>
 	</footer>
+	<section class="modal" id="modal" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+		<div class="modal-content">
+
+			<span class="back-arrow" aria-label="Retour à la galerie" style="display:none;">&#8592;</span>
+
+			<button class="close-modal" aria-label="Fermer la modale">&times;</button>
+
+			<div class="modal-gallery active">
+				<h2 id="modal-title">Galerie photo</h2>
+				<div class="gallery-items">
+				</div>
+				<button id="addPhotoBtn" class="filter-btn active">Ajouter une photo</button>
+			</div>
+
+			<div class="modal-form">
+				<h2>Ajout photo</h2>
+				<form>
+					<input type="file" name="photo" accept="image/*" required>
+					<input type="text" name="title" placeholder="Titre" required>
+					<select name="category" required>
+					</select>
+					<button type="submit">Valider</button>
+				</form>
+			</div>
+		</div>
+	</section>
 	<script src="script.js"></script>
 </body>
 

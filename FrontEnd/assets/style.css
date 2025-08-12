@@ -432,3 +432,127 @@ footer nav ul li {
 	gap: 8px;
 	padding: 20px 0;
 }
+
+/* Modale */
+
+#modal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+#modal {
+	display: none;
+}
+
+#modal.active {
+	display: block;
+}
+
+#modal.active {
+	display: flex;
+}
+
+/* Contenu de la modale */
+.modal-content {
+	position: relative;
+	background: white;
+	border-radius: 8px;
+	max-width: 600px;
+	width: 100%;
+	max-height: 90vh;
+	/* limite la hauteur à 90% de la fenêtre */
+	padding-left: 100px;
+	padding-right: 100px;
+	padding-top: 40px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Croix fermeture positionnée en haut à droite */
+.close-modal {
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	font-size: 24px;
+	cursor: pointer;
+	color: #333;
+	background: transparent;
+	border: none;
+	line-height: 1;
+	user-select: none;
+	padding: 0;
+}
+
+/* Flèche retour en haut à gauche */
+.back-arrow {
+	position: absolute;
+	top: 15px;
+	left: 15px;
+	font-size: 24px;
+	cursor: pointer;
+	color: #333;
+	background: transparent;
+	border: none;
+	user-select: none;
+	padding: 0;
+}
+
+/* Gestion affichage des vues */
+.modal-gallery,
+.modal-form {
+	display: none;
+}
+
+.modal-gallery.active,
+.modal-form.active {
+	display: block;
+}
+
+#modal-title {
+	margin-top: 60px;
+	margin-bottom: 60px;
+	font-size: 26px;
+	font-weight: 400;
+	color: #000000;
+	text-align: center;
+}
+
+/* Conteneur des images dans la modale */
+.modal-gallery .gallery-items {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 15px;
+	justify-content: center;
+	max-height: 280px;
+	/* limite hauteur pour garder la modale aérée */
+}
+
+/* Chaque figure dans la galerie modale */
+.modal-gallery .gallery-items figure {
+	flex: 0 0 100px;
+	/* largeur fixe */
+	margin: 0;
+	cursor: pointer;
+	overflow: hidden;
+}
+
+/* Images dans la modale */
+.modal-gallery .gallery-items img {
+	width: 100%;
+	height: 130px;
+	object-fit: cover;
+	display: block;
+}
+
+.modal-gallery figcaption {
+	display: none;
+}
