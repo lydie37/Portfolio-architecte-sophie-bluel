@@ -434,7 +434,6 @@ footer nav ul li {
 }
 
 /* Modale */
-
 #modal {
 	display: none;
 	position: fixed;
@@ -443,19 +442,10 @@ footer nav ul li {
 	width: 100vw;
 	height: 100vh;
 	z-index: 1000;
-	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: center;
 	padding: 20px;
 	box-sizing: border-box;
-}
-
-#modal {
-	display: none;
-}
-
-#modal.active {
-	display: block;
 }
 
 #modal.active {
@@ -467,14 +457,12 @@ footer nav ul li {
 	position: relative;
 	background: white;
 	border-radius: 8px;
-	max-width: 600px;
-	width: 100%;
-	max-height: 90vh;
-	/* limite la hauteur à 90% de la fenêtre */
-	padding-left: 100px;
-	padding-right: 100px;
-	padding-top: 40px;
-	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+	width: 800px;
+	max-width: 90%;
+	height: auto;
+	min-height: 500px;
+	padding: 20px 80px;
+	box-sizing: border-box;
 }
 
 /* Croix fermeture positionnée en haut à droite */
@@ -532,14 +520,15 @@ footer nav ul li {
 	flex-wrap: wrap;
 	gap: 15px;
 	justify-content: center;
-	max-height: 280px;
-	/* limite hauteur pour garder la modale aérée */
+	padding: 0 20px;
+	/* marge interne pour aérer les bords */
+	box-sizing: border-box;
 }
 
 /* Chaque figure dans la galerie modale */
 .modal-gallery .gallery-items figure {
-	flex: 0 0 100px;
-	/* largeur fixe */
+	flex: 0 0 calc((100% - 4 * 15px) / 5);
+	/* largeur calculée pour 5 colonnes */
 	margin: 0;
 	cursor: pointer;
 	overflow: hidden;
@@ -555,4 +544,9 @@ footer nav ul li {
 
 .modal-gallery figcaption {
 	display: none;
+}
+
+#addPhotoBtn {
+	display: block;
+	margin: 20px auto 0;
 }
