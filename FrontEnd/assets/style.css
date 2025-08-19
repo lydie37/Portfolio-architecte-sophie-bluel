@@ -161,7 +161,7 @@ header {
 	align-items: center;
 	justify-content: space-between;
 	max-width: 1140px;
-	margin: 50px auto;
+	margin: 40px auto;
 	padding: 0;
 	width: 100%;
 	box-sizing: border-box;
@@ -259,7 +259,6 @@ li:hover {
 
 .gallery img {
 	width: 100%;
-
 }
 
 #contact {
@@ -269,7 +268,6 @@ li:hover {
 
 #contact>* {
 	text-align: center;
-
 }
 
 #contact h2 {
@@ -418,19 +416,16 @@ footer nav ul li {
 }
 
 #edition-banner {
-	display: none;
-	background-color: black;
-	color: white;
-	font-family: 'Work Sans', sans-serif;
-	font-size: 14px;
-	position: relative;
-	z-index: 10;
+	top: 0;
+	left: 0;
 	width: 100%;
+	height: 60px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	gap: 8px;
-	padding: 20px 0;
+	background-color: black;
+	color: white;
+	z-index: 1001;
 }
 
 /* Modale */
@@ -441,12 +436,13 @@ footer nav ul li {
 	left: 0;
 	width: 100vw;
 	height: 100vh;
-	z-index: 1000;
-	align-items: flex-start;
+	z-index: 101;
+	align-items: center;
 	justify-content: center;
 	padding: 20px;
 	box-sizing: border-box;
 }
+
 
 #modal.active {
 	display: flex;
@@ -454,44 +450,17 @@ footer nav ul li {
 
 /* Contenu de la modale */
 .modal-content {
-	position: relative;
 	background: white;
-	border-radius: 8px;
-	width: 800px;
+	border-radius: 10px;
+	width: 630px;
 	max-width: 90%;
-	height: auto;
-	min-height: 500px;
+	height: 688px;
 	padding: 20px 80px;
 	box-sizing: border-box;
-}
-
-/* Croix fermeture positionnée en haut à droite */
-.close-modal {
-	position: absolute;
-	top: 15px;
-	right: 15px;
-	font-size: 24px;
-	cursor: pointer;
-	color: #333;
-	background: transparent;
-	border: none;
-	line-height: 1;
-	user-select: none;
-	padding: 0;
-}
-
-/* Flèche retour en haut à gauche */
-.back-arrow {
-	position: absolute;
-	top: 15px;
-	left: 15px;
-	font-size: 24px;
-	cursor: pointer;
-	color: #333;
-	background: transparent;
-	border: none;
-	user-select: none;
-	padding: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	position: relative;
 }
 
 /* Gestion affichage des vues */
@@ -505,7 +474,7 @@ footer nav ul li {
 	display: block;
 }
 
-#modal-title {
+.modal-title {
 	margin-top: 60px;
 	margin-bottom: 60px;
 	font-size: 26px;
@@ -514,21 +483,48 @@ footer nav ul li {
 	text-align: center;
 }
 
+/* Flèche retour */
+.back-arrow {
+	position: absolute;
+	top: 25px;
+	left: 15px;
+	font-size: 15px;
+	cursor: pointer;
+	color: #333;
+	background: transparent;
+	border: none;
+	padding: 0;
+	user-select: none;
+	line-height: 1;
+}
+
+/* Croix de fermeture */
+.close-modal {
+	position: absolute;
+	top: 25px;
+	right: 15px;
+	font-size: 15px;
+	cursor: pointer;
+	color: #333;
+	background: transparent;
+	border: none;
+	padding: 0;
+	line-height: 1;
+}
+
 /* Conteneur des images dans la modale */
 .modal-gallery .gallery-items {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 15px;
-	justify-content: center;
 	padding: 0 20px;
-	/* marge interne pour aérer les bords */
 	box-sizing: border-box;
+	margin-bottom: 60px;
 }
 
 /* Chaque figure dans la galerie modale */
 .modal-gallery .gallery-items figure {
 	flex: 0 0 calc((100% - 4 * 15px) / 5);
-	/* largeur calculée pour 5 colonnes */
 	margin: 0;
 	cursor: pointer;
 	overflow: hidden;
@@ -537,16 +533,185 @@ footer nav ul li {
 /* Images dans la modale */
 .modal-gallery .gallery-items img {
 	width: 100%;
-	height: 130px;
 	object-fit: cover;
 	display: block;
+	height: 100px;
 }
 
 .modal-gallery figcaption {
 	display: none;
 }
 
+.gallery-items {
+	position: relative;
+}
+
+.modal-gallery .gallery-items figure {
+	position: relative;
+}
+
+.delete-btn {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	width: 20px;
+	height: 20px;
+	background: black;
+	border: none;
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 3px;
+	cursor: pointer;
+	font-size: 10px;
+}
+
 #addPhotoBtn {
 	display: block;
-	margin: 20px auto 0;
+	margin: 50px auto 0;
+	padding: 10px 50px;
+}
+
+.page-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	display: none;
+	z-index: 100;
+}
+
+/* Affichage overlay */
+.page-overlay.show {
+	display: block;
+}
+
+.separator {
+	height: 1px;
+	background-color: #B3B3B3;
+	margin: 20px 0;
+}
+
+.custom-file-btn input[type="file"] {
+	opacity: 0;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	cursor: pointer;
+}
+
+/* Formulaire : chaque élément sur sa ligne */
+#add-photo-form button.custom-file-btn,
+#add-photo-form input,
+#add-photo-form select,
+#add-photo-form button[type="submit"] {
+	display: block;
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+/* Style du bouton "Ajouter une photo" */
+.custom-file-btn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	background-color: #E8F1F6;
+	border: none;
+	/* pas de contour */
+	border-radius: 5px;
+	cursor: pointer;
+	position: relative;
+}
+
+.custom-file-btn input[type="file"] {
+	opacity: 0;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	cursor: pointer;
+	z-index: 1;
+	border: none;
+	outline: none;
+	background: transparent;
+	pointer-events: auto;
+}
+
+.custom-file-btn input[type="file"]:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+/* Contenu visible du bouton */
+.custom-file-btn .btn-content {
+	position: relative;
+	z-index: 0;
+}
+
+/* Centrer image et texte */
+.custom-file-btn .btn-content img {
+	display: block;
+	margin: 0 auto 10px;
+}
+
+.custom-file-btn .btn-content p {
+	margin: 0;
+	font-size: 14px;
+}
+
+#add-photo-form,
+#add-photo-form input,
+#add-photo-form select,
+#add-photo-form button {
+	font-family: 'Work Sans', sans-serif;
+}
+
+#connexion input,
+#connexion select,
+#modal input,
+#modal select {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	padding: 10px;
+	background-color: #fff;
+	width: 100%;
+	box-sizing: border-box;
+	line-height: normal;
+	/* permet au texte de suivre le padding */
+}
+
+#connexion label,
+#modal label {
+	display: block;
+	/* s’assure que le margin fonctionne correctement */
+	margin-bottom: 8px;
+	/* espace sous le label */
+	font-weight: 500;
+	font-size: 1em;
+}
+
+.add-photo {
+	font-size: 14px;
+	font-weight: 500;
+	color: #306685;
+	text-align: center;
+	margin: 20px 0 10px;
+	cursor: pointer;
+}
+
+.file-info {
+	font-size: 10px;
+	font-weight: 400;
+	color: #444444;
+	text-align: center;
+	margin: 0 0 20px;
 }

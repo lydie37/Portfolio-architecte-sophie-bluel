@@ -38,6 +38,38 @@ function displayWorksInContainer(works, container) {
       <img src="${work.imageUrl}" alt="${work.title}">
       <figcaption>${work.title}</figcaption>
     `;
+
+    // Ajouter le bouton corbeille uniquement dans la modale
+    if (container === modalGalleryItems) {
+      const deleteBtn = document.createElement("button");
+      deleteBtn.className = "delete-btn";
+      deleteBtn.dataset.id = work.id;
+      deleteBtn.innerHTML = `<i class="fa-solid fa-trash"></i>`;
+
+      // Supprimer après confirmation serveur
+      deleteBtn.addEventListener("click", async () => {
+        try {
+          const response = await fetch(`http://localhost:5678/api/works/${work.id}`, {
+            method: "DELETE",
+            headers: { "Authorization": `Bearer ${token}` }
+          });
+          if (response.ok) {
+            // Retirer l'élément du DOM
+            figure.remove();
+            // Mettre à jour la galerie principale
+            allWorks = allWorks.filter(w => w.id !== work.id);
+            displayWorksInContainer(allWorks, gallery);
+          } else {
+            console.error("Erreur suppression :", response.status);
+          }
+        } catch (err) {
+          console.error("Erreur fetch DELETE :", err);
+        }
+      });
+
+      figure.appendChild(deleteBtn);
+    }
+
     container.appendChild(figure);
   });
 }
@@ -97,10 +129,10 @@ function initFilters() {
 }
 
 // === GESTION DE L'INTERFACE SELON LE TOKEN ===
-function handleAuthUI() {
-  const token = localStorage.getItem("token");
-  const isConnected = token && token !== "null" && token !== "undefined";
+const token = sessionStorage.getItem("token");
+const isConnected = token && token !== "null" && token !== "undefined";
 
+function handleAuthUI() {
   // Filtres
   isConnected ? hideElement(filtersContainer) : showElement(filtersContainer, "flex");
 
@@ -131,7 +163,7 @@ function handleAuthUI() {
       loginLink.href = "#";
       loginLink.onclick = e => {
         e.preventDefault();
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         window.location.href = "index.html";
       };
     } else {
@@ -139,72 +171,104 @@ function handleAuthUI() {
       loginLink.href = "login.html";
     }
   }
-
-  console.log("Token:", token);
 }
 
 // === MODALE ===
-// Sélections DOM
 const modal = document.getElementById("modal");
 const modalGallery = document.querySelector(".modal-gallery");
 const modalForm = document.querySelector(".modal-form");
 const backArrow = document.querySelector(".back-arrow");
-const openModalBtn = document.querySelector(".edit-button"); // bouton modifier
+const openModalBtn = document.querySelector(".edit-button");
 const addPhotoBtn = document.getElementById("addPhotoBtn");
 const closeModalBtn = document.querySelector(".close-modal");
+const overlay = document.querySelector('.page-overlay');
 const form = modalForm.querySelector("form");
 
-// Ouvrir la modale (vue galerie)
+// === FONCTIONS ===
+
+// Ouvrir la modale
 function openModal() {
   modal.classList.add("active");
   modalGallery.classList.add("active");
   modalForm.classList.remove("active");
   backArrow.style.display = "none";
+  overlay.classList.add("show");
 }
 
 // Fermer la modale
 function closeModal() {
   modal.classList.remove("active");
+  overlay.classList.remove("show");
 }
 
-// Afficher formulaire
+// Clic sur overlay ou à l’extérieur du contenu
+overlay.addEventListener("click", closeModal);
+modal.addEventListener("click", (e) => {
+  if (e.target === modal) closeModal();
+});
+
+// Fermer modale au clic sur le bouton X
+closeModalBtn.addEventListener("click", closeModal);
+// Afficher le formulaire
 function showFormView() {
   modalGallery.classList.remove("active");
   modalForm.classList.add("active");
   backArrow.style.display = "block";
 }
 
-// Retour à la galerie
+// Afficher la galerie
 function showGalleryView() {
   modalForm.classList.remove("active");
   modalGallery.classList.add("active");
   backArrow.style.display = "none";
 }
 
-// Soumission du formulaire
-form.addEventListener("submit", (e) => {
+// Soumission formulaire
+function handleFormSubmit(e) {
   e.preventDefault();
   console.log("Formulaire soumis !");
   // TODO : envoyer données vers API
-
   form.reset();
   showGalleryView();
-});
+}
 
-// Événements
-openModalBtn.addEventListener("click", openModal);
-addPhotoBtn.addEventListener("click", showFormView);
-backArrow.addEventListener("click", showGalleryView);
-closeModalBtn.addEventListener("click", closeModal);
-
-// Fermer modale en cliquant sur overlay (hors contenu)
-modal.addEventListener("click", (e) => {
-  if (e.target === modal) closeModal();
-});
-
-// === INITIALISATION GLOBALE ===
+// === INITIALISATION ===
 document.addEventListener("DOMContentLoaded", () => {
   initGallery();
   initFilters();
   handleAuthUI();
+
+  // Événements modale
+  openModalBtn.addEventListener("click", openModal);
+  addPhotoBtn.addEventListener("click", showFormView);
+  backArrow.addEventListener("click", showGalleryView);
+  closeModalBtn.addEventListener("click", closeModal);
+
+  // Fermer modale en cliquant sur overlay
+  overlay.addEventListener("click", closeModal);
+
+  // Soumission formulaire
+  form.addEventListener("submit", handleFormSubmit);
 });
+
+// === Récupération des catégories depuis l'API ===
+fetch("http://localhost:5678/api/categories")
+  .then(response => response.json())
+  .then(data => {
+    const select = document.getElementById("category");
+
+    // Option vide au début
+    const emptyOption = document.createElement("option");
+    emptyOption.value = "";
+    emptyOption.textContent = "";
+    select.appendChild(emptyOption);
+
+    // Ajouter catégories
+    data.forEach(cat => {
+      const option = document.createElement("option");
+      option.value = cat.id;
+      option.textContent = cat.name;
+      select.appendChild(option);
+    });
+  })
+  .catch(error => console.error("Erreur récupération catégories :", error));
