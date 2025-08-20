@@ -432,7 +432,7 @@ footer nav ul li {
 #modal {
 	display: none;
 	position: fixed;
-	top: 0;
+	top: -115px;
 	left: 0;
 	width: 100vw;
 	height: 100vh;
@@ -475,8 +475,8 @@ footer nav ul li {
 }
 
 .modal-title {
-	margin-top: 60px;
-	margin-bottom: 60px;
+	margin-top: 40px;
+	margin-bottom: 40px;
 	font-size: 26px;
 	font-weight: 400;
 	color: #000000;
@@ -595,123 +595,113 @@ footer nav ul li {
 	margin: 20px 0;
 }
 
-.custom-file-btn input[type="file"] {
-	opacity: 0;
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	z-index: 1;
-	cursor: pointer;
-}
-
-/* Formulaire : chaque élément sur sa ligne */
-#add-photo-form button.custom-file-btn,
-#add-photo-form input,
-#add-photo-form select,
-#add-photo-form button[type="submit"] {
-	display: block;
-	width: 100%;
-	margin-bottom: 20px;
-}
-
-/* Style du bouton "Ajouter une photo" */
-.custom-file-btn {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+/* Carte upload (fond gris clair) */
+.modal-form .custom-file-btn {
+	background: #E8F1F6;
+	border-radius: 3px;
 	padding: 20px;
-	background-color: #E8F1F6;
-	border: none;
-	/* pas de contour */
-	border-radius: 5px;
-	cursor: pointer;
-	position: relative;
+	text-align: center;
+	margin-bottom: 40px;
 }
 
-.custom-file-btn input[type="file"] {
-	opacity: 0;
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	cursor: pointer;
-	z-index: 1;
-	border: none;
-	outline: none;
-	background: transparent;
-	pointer-events: auto;
-}
-
-.custom-file-btn input[type="file"]:focus {
-	outline: none;
-	box-shadow: none;
-}
-
-/* Contenu visible du bouton */
-.custom-file-btn .btn-content {
-	position: relative;
-	z-index: 0;
-}
-
-/* Centrer image et texte */
-.custom-file-btn .btn-content img {
+/* Icône d’image centrée */
+.modal-form .custom-file-btn img {
+	width: 80px;
+	height: auto;
 	display: block;
-	margin: 0 auto 10px;
+	margin: 8px auto 16px;
+	opacity: .9;
 }
 
-.custom-file-btn .btn-content p {
+/* “+ Ajouter photo” */
+.modal-form .add-photo {
+	padding: 10px 16px;
+	background: #D6DEE6;
+	font-weight: bold;
+	border-radius: 9999px;
+	line-height: 1;
+	cursor: pointer;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+	margin-bottom: 8px;
+	width: fit-content;
+	max-width: 160px;
+	text-align: center;
+	white-space: nowrap;
+}
+
+.modal-form .btn-content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.modal-form .add-photo:hover {
+	filter: brightness(.97);
+}
+
+/* Petit texte sous le bouton */
+.modal-form .file-info {
 	margin: 0;
+	font-size: 12px;
+	color: #444444;
+	font-weight: 400px;
+}
+
+/* (option) bouton Valider gris arrondi comme la maquette */
+.modal-form button[type="submit"] {
+	display: block;
+	width: 240px;
+	margin: 24px auto 0;
+	padding: 12px 0;
+	border: none;
+	border-radius: 25px;
+	background: #A7A7A7;
+	color: #fff;
+	font-weight: 700;
+	font-family: 'Syne', sans-serif;
+	cursor: not-allowed;
+	text-align: center;
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+/* Labels (Titre, Catégorie) */
+#add-photo-form label {
+	display: block;
 	font-size: 14px;
+	margin-bottom: 8px;
+	color: #306685;
 }
 
-#add-photo-form,
+/* Inputs et selects (Titre, Catégorie) */
 #add-photo-form input,
-#add-photo-form select,
-#add-photo-form button {
-	font-family: 'Work Sans', sans-serif;
-}
-
-#connexion input,
-#connexion select,
-#modal input,
-#modal select {
+#add-photo-form select {
 	height: 50px;
-	font-size: 1.2em;
+	font-size: 14px;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-	padding: 10px;
+	padding: 0 15px;
 	background-color: #fff;
 	width: 100%;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	/* espace sous le champ */
 	box-sizing: border-box;
-	line-height: normal;
-	/* permet au texte de suivre le padding */
 }
 
-#connexion label,
-#modal label {
-	display: block;
-	/* s’assure que le margin fonctionne correctement */
-	margin-bottom: 8px;
-	/* espace sous le label */
-	font-weight: 500;
-	font-size: 1em;
+#add-photo-form button[type="submit"] {
+	background-color: #ccc;
+	color: #666;
+	cursor: not-allowed;
+	opacity: 0.6;
+	transition: background-color 0.3s ease, opacity 0.3s ease;
 }
 
-.add-photo {
-	font-size: 14px;
-	font-weight: 500;
-	color: #306685;
-	text-align: center;
-	margin: 20px 0 10px;
+#add-photo-form button[type="submit"].active {
+	background-color: #1D6154;
+	color: #fff;
 	cursor: pointer;
-}
-
-.file-info {
-	font-size: 10px;
-	font-weight: 400;
-	color: #444444;
-	text-align: center;
-	margin: 0 0 20px;
+	opacity: 1;
 }

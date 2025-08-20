@@ -107,22 +107,26 @@
 			<div class="modal-form">
 				<h2 class="modal-title">Ajout photo</h2>
 				<form id="add-photo-form">
-					<button type="button" class="custom-file-btn">
-						<input type="file" name="photo" accept="image/*" required>
+					<div class="custom-file-btn">
+						<img id="image-preview" style="display:none; max-width:100px; margin-bottom:10px;">
+
+						<input type="file" id="photo" name="photo" accept="image/*" required hidden>
+
 						<div class="btn-content">
 							<img src="assets/icons/Vector.png" alt="Icône photo">
-							<p class="add-photo">+ Ajouter une photo</p>
-							<p class="file-info">jpg. png : 40mo max</p>
+							<label for="photo" class="add-photo">+ Ajouter photo</label>
+							<p class="file-info">jpg, png : 4mo max</p>
 						</div>
-					</button>
+					</div>
+
 					<label for="title">Titre</label>
 					<input type="text" name="title" id="title" required>
+
 					<label for="category">Catégorie</label>
-					<select name="category" id="category" required>
-					</select>
+					<select name="category" id="category" required></select>
 
 					<div class="separator"></div>
-					<button type="submit">Valider</button>
+					<button type="submit" id="submitBtn">Valider</button>
 				</form>
 			</div>
 		</div>
