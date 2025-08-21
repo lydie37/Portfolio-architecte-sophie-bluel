@@ -10,13 +10,17 @@ const backArrow = document.querySelector(".back-arrow");
 const openModalBtn = document.querySelector(".edit-button");
 const addPhotoBtn = document.getElementById("addPhotoBtn");
 const closeModalBtn = document.querySelector(".close-modal");
+
 const addPhotoForm = document.getElementById("add-photo-form");
+const titleInput = document.getElementById("title");
+const categorySelect = document.getElementById("category");
 const imageInput = document.getElementById("photo");
 const imagePreview = document.getElementById("image-preview");
 const btnContent = document.querySelector(".custom-file-btn .btn-content");
 const gallery = document.querySelector(".gallery");
-const filtersContainer = document.querySelector(".filters");
-const submitBtn = addPhotoForm.querySelector('button[type="submit"]');
+const filtersContainer = document.getElementById("filters"); // corrige ici
+const form = document.getElementById('add-photo-form');
+const submitBtn = document.getElementById('submitBtn');
 
 // === VARIABLES ===
 let allWorks = [];
@@ -136,7 +140,7 @@ async function initCategoriesSelect() {
   const categorySelect = document.getElementById("category");
   if (!categorySelect) return;
 
-  clearContainer(categorySelect); // vider les options existantes
+  clearContainer(categorySelect);
 
   // Option par défaut
   const defaultOption = document.createElement("option");
@@ -215,7 +219,7 @@ function closeModal() {
   showGalleryView();
 }
 
-// Clic sur overlay pour fermer la modale (NE PAS TOUCHER)
+// Clic sur overlay pour fermer la modale 
 overlay.addEventListener("click", closeModal);
 modal.addEventListener("click", (e) => {
   if (e.target === modal) closeModal();
@@ -237,57 +241,23 @@ function showGalleryView() {
 
 // === ACTIVER / DÉSACTIVER LE BOUTON SUBMIT ===
 function updateSubmitButtonState() {
-  const title = document.getElementById("title").value.trim();
-  const category = document.getElementById("category").value;
-  const imageFile = imageInput.files[0];
+  const isValid = titleInput.value.trim() !== "" &&
+    categorySelect.value !== "" &&
+    imageInput.files.length > 0;
 
-  const isValid = title && category && imageFile;
-
+  // Activer/désactiver le bouton
   submitBtn.disabled = !isValid;
 
-  if (isValid) {
-    submitBtn.classList.add("active");
-  } else {
-    submitBtn.classList.remove("active");
-  }
+  // Ajouter/enlever la classe "active" pour le style
+  submitBtn.classList.toggle("active", isValid);
 }
 
-addPhotoForm.addEventListener("submit", async (e) => {
-  e.preventDefault(); // empêche le rechargement de la page
 
-  const title = document.getElementById("title").value.trim();
-  const category = document.getElementById("category").value;
-  const imageFile = imageInput.files[0];
+// Événements pour mettre à jour le bouton
+titleInput.addEventListener("input", updateSubmitButtonState);
+categorySelect.addEventListener("change", updateSubmitButtonState);
+imageInput.addEventListener("change", updateSubmitButtonState);
 
-  if (!title || !category || !imageFile) return;
-
-  const formData = new FormData();
-  formData.append("title", title);
-  formData.append("category", category);
-  formData.append("image", imageFile);
-
-  try {
-    const response = await fetch("http://localhost:5678/api/works", {
-      method: "POST",
-      headers: { "Authorization": `Bearer ${token}` }, // ton token si nécessaire
-      body: formData
-    });
-
-    if (response.ok) {
-      const newWork = await response.json();
-      allWorks.push(newWork);  // mettre à jour la galerie
-      displayWorks(allWorks);  // rafraîchir l’affichage
-      closeModal();             // fermer la modale
-      alert("Projet ajouté avec succès !");
-    } else {
-      const errorData = await response.json();
-      alert("Erreur lors de l'ajout : " + (errorData.message || response.status));
-    }
-  } catch (err) {
-    console.error("Erreur fetch POST :", err);
-    alert("Erreur lors de l'ajout du projet.");
-  }
-});
 
 // Écouter les changements sur les champs
 // Aperçu de l’image sélectionnée
@@ -297,8 +267,8 @@ imageInput.addEventListener("change", (e) => {
     const reader = new FileReader();
     reader.onload = (event) => {
       imagePreview.src = event.target.result;
-      imagePreview.style.display = "block"; // montrer l’image
-      btnContent.style.display = "none";    // cacher le bouton "ajout photo"
+      imagePreview.style.display = "block";
+      btnContent.style.display = "none";
     };
     reader.readAsDataURL(file);
   } else {
@@ -347,8 +317,8 @@ addPhotoForm.addEventListener("submit", async e => {
     if (response.ok) {
       const newWork = await response.json();
       allWorks.push(newWork);
-      displayWorks(allWorks); // Met à jour la galerie
-      closeModal();            // Ferme la modale
+      displayWorks(allWorks);
+      closeModal();
       alert("Projet ajouté avec succès !");
     } else {
       const errorData = await response.json();
@@ -357,6 +327,66 @@ addPhotoForm.addEventListener("submit", async e => {
   } catch (err) {
     console.error("Erreur fetch POST :", err);
     alert("Erreur lors de l'ajout du projet.");
+  }
+});
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  // Création du FormData pour l'envoi
+  const formData = new FormData();
+  formData.append('title', titleInput.value);
+  formData.append('category', categorySelect.value);
+  formData.append('image', imageInput.files[0]);
+
+  try {
+    // Simuler l'envoi à l'API
+    const response = await fetch('https://exemple-api.com/projects', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (response.ok) {
+      const data = await response.json(); // réponse API simulée
+      console.log('Réponse API :', data);
+
+      // Création dynamique de l'image pour la galerie principale
+      const newProject = document.createElement('figure');
+      const img = document.createElement('img');
+      img.src = URL.createObjectURL(imageInput.files[0]);
+      img.alt = titleInput.value;
+      newProject.appendChild(img);
+
+      const caption = document.createElement('figcaption');
+      caption.textContent = titleInput.value;
+      newProject.appendChild(caption);
+
+      gallery.appendChild(newProject);
+
+      // Création dynamique dans la galerie de la modale
+      const newModalItem = document.createElement('figure');
+      const modalImg = document.createElement('img');
+      modalImg.src = URL.createObjectURL(imageInput.files[0]);
+      modalImg.alt = titleInput.value;
+      newModalItem.appendChild(modalImg);
+      modalGallery.querySelector('.gallery-items').appendChild(newModalItem);
+
+      // Reset formulaire
+      form.reset();
+      imagePreview.src = '';
+      submitBtn.classList.remove('active');
+      submitBtn.disabled = true;
+
+      // Fermeture modale
+      modal.classList.remove('active');
+      overlay.classList.remove('show');
+      modalForm.classList.remove('active');
+      modalGallery.classList.add('active');
+    } else {
+      console.error('Erreur API');
+    }
+  } catch (error) {
+    console.error('Erreur réseau :', error);
   }
 });
 
@@ -369,6 +399,5 @@ closeModalBtn.addEventListener("click", closeModal);
 // === INIT ===
 initGallery();
 initFilters();
-initCategoriesSelect(); // <-- Ajout pour remplir le select
+initCategoriesSelect();
 handleAuthUI();
-

@@ -704,4 +704,16 @@ footer nav ul li {
 	color: #fff;
 	cursor: pointer;
 	opacity: 1;
+	pointer-events: auto;
+}
+
+#submitBtn:disabled {
+	background-color: grey;
+	cursor: not-allowed;
+}
+
+#submitBtn:not(:disabled) {
+	background-color: green;
+	/* ou ta couleur habituelle */
+	cursor: pointer;
 }
