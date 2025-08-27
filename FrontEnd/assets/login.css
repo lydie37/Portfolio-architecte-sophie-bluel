@@ -312,3 +312,8 @@ footer nav ul li {
     color: black;
     font-size: 14px;
 }
+
+#error-message {
+    color: red;
+    text-align: center;
+}
